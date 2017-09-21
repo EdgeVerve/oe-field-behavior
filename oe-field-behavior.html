@@ -15,22 +15,30 @@
       errorPlaceholders: {
         type: Array
       },
-
+      /* Custom error message/code */
+      userErrorMessage: {
+        type: String
+      },
       hidden: {
         type: Boolean,
         reflectToAttribute: true,
         value: false
       },
+      /* Custom validation function */
       validationFunction: {
         type: String
       },
       validateOnInput: {
         type: Boolean
       },
+      /* binding to property */
       fieldId: String
     },
     setValidity: function (isValid, errorMessage, errorPlaceholders) {
 
+      if(!isValid && errorMessage) {
+        errorMessage = this.userErrorMessage || errorMessage;
+      }
       this._setValidity(isValid, errorMessage, errorPlaceholders);
 
       if (this.fieldId) {
@@ -47,12 +55,10 @@
       }
     },
     _setValidity: function (isValid, errorMessage, errorPlaceholders) {
-      //this.inputElement.setCustomValidity(errorMessage || '');
       this.set('invalid', !isValid);
       this.set('errorMessage', errorMessage);
       if (!isValid) {
         errorPlaceholders = errorPlaceholders || this;
-        //errorPlaceholders.push(this.fieldId);
         this.set('errorPlaceholders', errorPlaceholders);
       }
     },
