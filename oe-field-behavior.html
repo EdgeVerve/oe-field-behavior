@@ -15,9 +15,10 @@
       errorPlaceholders: {
         type: Array
       },
-      /* Custom error message/code */
-      userErrorMessage: {
-        type: String
+      /* Flag for Custom error message/code*/
+      _hasCustomMessage: {
+        type: Boolean,
+        value: false
       },
       hidden: {
         type: Boolean,
@@ -36,8 +37,9 @@
     },
     setValidity: function (isValid, errorMessage, errorPlaceholders) {
 
-      if(!isValid && errorMessage) {
-        errorMessage = this.userErrorMessage || errorMessage;
+      /* Never override errorMessage if it is custom set */
+      if(this._hasCustomMessage) {
+        errorMessage = this.errorMessage || errorMessage;
       }
       this._setValidity(isValid, errorMessage, errorPlaceholders);
 
@@ -134,6 +136,12 @@
 
       if (this.validateOnInput) {
         this.listen(this, 'input', 'validate');
+      }
+    },
+	ready: function () {
+      if(this.hasAttribute('error-message')){
+        this.set('errorMesage',this.getAttribute('error-message'));
+        this.set('_hasCustomMessage', true);
       }
     }
   };
