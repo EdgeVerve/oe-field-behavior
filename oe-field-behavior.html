@@ -15,6 +15,10 @@
             errorPlaceholders: {
                 type: Array
             },
+            /* Custom error message from user */
+            userErrorMessage: {
+                type: String
+            },
             /* Flag for Custom error message/code*/
             _hasCustomMessage: {
                 type: Boolean,
@@ -38,9 +42,10 @@
         setValidity: function(isValid, errorMessage, errorPlaceholders) {
 
             /* Never override errorMessage if it is custom set */
-            if (this._hasCustomMessage) {
-                errorMessage = this.errorMessage || errorMessage;
-            }
+            // if (this._hasCustomMessage) {
+            //     errorMessage = this.errorMessage || errorMessage;
+            // }
+            errorMessage = this.userErrorMessage || errorMessage;
             this._setValidity(isValid, errorMessage, errorPlaceholders);
 
             if (this.fieldId) {
@@ -147,10 +152,10 @@
             return hash;
         },
         ready: function() {
-            if (this.hasAttribute('error-message')) {
-                this.set('errorMessage', this.getAttribute('error-message'));
-                this.set('_hasCustomMessage', true);
-            }
+            // if (this.hasAttribute('error-message')) {
+            //     this.set('errorMessage', this.getAttribute('error-message'));
+            //     this.set('_hasCustomMessage', true);
+            // }
         }
     };
 </script>
