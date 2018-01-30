@@ -1,4 +1,4 @@
-<!-- 
+<!--
   ©2016-2017 EdgeVerve Systems Limited (a fully owned Infosys subsidiary),
   Bangalore, India. All Rights Reserved.
 -->
@@ -92,7 +92,9 @@
             }
             if (isValid && coreElem && coreElem.validity) {
                 if (coreElem.validity.valid === false) {
-                    for (var err in coreElem.validity) {
+                    var keysValidity = Object.keys(coreElem.validity);
+                    for (var i = 0; i < keysValidity.length; i++) {
+                        var err = keysValidity[i];
                         if (err !== 'valid' && coreElem.validity[err] === true) {
                             if (err === 'customError') {
                                 key = coreElem.validationMessage;
