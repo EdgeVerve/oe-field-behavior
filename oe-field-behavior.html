@@ -39,7 +39,7 @@
 
             /* Never override errorMessage if it is custom set */
             if (this._hasCustomMessage) {
-                errorMessage = this.errorMessage || errorMessage;
+                errorMessage = this.getAttribute('error-message') || errorMessage;
             }
             this._setValidity(isValid, errorMessage, errorPlaceholders);
 
