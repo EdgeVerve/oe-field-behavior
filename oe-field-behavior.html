@@ -1,4 +1,4 @@
-<!-- 
+<!--
   ©2016-2017 EdgeVerve Systems Limited (a fully owned Infosys subsidiary),
   Bangalore, India. All Rights Reserved.
 -->
@@ -43,7 +43,7 @@
 
             /* Never override errorMessage if it is custom set */
             // if (this._hasCustomMessage) {
-            //     errorMessage = this.errorMessage || errorMessage;
+            //     errorMessage = this.getAttribute('error-message') || errorMessage;
             // }
             errorMessage = this.userErrorMessage || errorMessage;
             this._setValidity(isValid, errorMessage, errorPlaceholders);
@@ -97,7 +97,9 @@
             }
             if (isValid && coreElem && coreElem.validity) {
                 if (coreElem.validity.valid === false) {
-                    for (var err in coreElem.validity) {
+                    var keysValidity = Object.keys(coreElem.validity);
+                    for (var i = 0; i < keysValidity.length; i++) {
+                        var err = keysValidity[i];
                         if (err !== 'valid' && coreElem.validity[err] === true) {
                             if (err === 'customError') {
                                 key = coreElem.validationMessage;
