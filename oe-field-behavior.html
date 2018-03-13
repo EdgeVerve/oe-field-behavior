@@ -15,9 +15,21 @@
             errorPlaceholders: {
                 type: Array
             },
-            /* Custom error message from user */
+            /* User specified Custom error message 
+             * If userErrorMessage is defined, show appropriate user-error-message
+             * which is either an object
+             *    ```{ 
+             *       rangeOverflow:'Date should be prior', 
+             *       default: 'Invalid Value in field'
+             *    }```
+             * or a string, 'Invalid value'
+             * So check if specific error-coode is defined in user-error-message object
+             * If not, see if 'default' error-code is defined 
+             * otherwise if user-error-message is string, show that error-message,
+             * if not, then resort to incoming-error-message.
+            */
             userErrorMessage: {
-                type: String
+                type: Object
             },
             /* Flag for Custom error message/code*/
             _hasCustomMessage: {
@@ -41,11 +53,21 @@
         },
         setValidity: function(isValid, errorMessage, errorPlaceholders) {
 
-            /* Never override errorMessage if it is custom set */
-            // if (this._hasCustomMessage) {
-            //     errorMessage = this.getAttribute('error-message') || errorMessage;
-            // }
-            errorMessage = this.userErrorMessage || errorMessage;
+            if(!isValid && this.userErrorMessage){
+              //If field is invalid and userErrorMessage is defined show appropriate user-error-message
+              //which is either an object 
+              //    { 'rangeOverflow':'Date should be prior', 
+              //       default: 'Invalid Value in field'
+              //    }
+              //or a string, 'Invalid value'
+              // So we check if specific error-coode is defined in user-error-message object
+              // If not, see if 'default' error-code is defined 
+              // otherwise if user-error-message is string, show that error-message,
+              // if not, then resort to incoming-error-message.
+              errorMessage = this.userErrorMessage[errorMessage] 
+                      || this.userErrorMessage.default 
+                      || ((typeof this.userErrorMessage==='string')?this.userErrorMessage:errorMessage);
+            }
             this._setValidity(isValid, errorMessage, errorPlaceholders);
 
             if (this.fieldId) {
