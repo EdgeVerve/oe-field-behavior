@@ -119,18 +119,42 @@
             }
             if (isValid && coreElem && coreElem.validity) {
                 if (coreElem.validity.valid === false) {
-                    var keysValidity = Object.keys(coreElem.validity);
-                    for (var i = 0; i < keysValidity.length; i++) {
-                        var err = keysValidity[i];
-                        if (err !== 'valid' && coreElem.validity[err] === true) {
-                            if (err === 'customError') {
-                                key = coreElem.validationMessage;
-                            } else {
-                                key = err;
-                            }
-                            break;
-                        }
-                    }
+
+//                  Object.keys on coreElem.validity does not work.
+//
+//                    var keysValidity = Object.keys(coreElem.validity);
+//                    for (var i = 0; i < keysValidity.length; i++) {
+//                        var err = keysValidity[i];
+//                        if (err !== 'valid' && coreElem.validity[err] === true) {
+//                            if (err === 'customError') {
+//                                key = coreElem.validationMessage;
+//                            } else {
+//                                key = err;
+//                            }
+//                            break;
+//                        }
+//                    }
+                  if(coreElem.validity.valueMissing){
+                    key = 'valueMissing';
+                  } else if(coreElem.validity.patternMismatch){
+                    key = 'patternMismatch';
+                  } else if(coreElem.validity.rangeOverflow){
+                    key = 'rangeOverflow';
+                  } else if(coreElem.validity.rangeUnderflow) {
+                    key = 'rangeUnderflow';
+                  } else if(coreElem.validity.tooLong) {
+                    key = 'tooLong';
+                  } else if(coreElem.validity.tooShort) {
+                    key = 'tooShort';
+                  } else if(coreElem.validity.typeMismatch) {
+                    key = 'typeMismatch';
+                  } else if(coreElem.validity.stepMismatch) {
+                    key = 'stepMismatch';
+                  } else if(coreElem.validity.customError) {
+                    key = coreElem.validationMessage;
+                  } else if(coreElem.validity.badInput) {
+                    key = 'badInput';
+                  }
                 }
 
                 isValid = coreElem.validity.valid;
@@ -174,12 +198,6 @@
                 hash = ((hash << 5) + hash) + char; /* hash * 33 + c */
             }
             return hash;
-        },
-        ready: function() {
-            // if (this.hasAttribute('error-message')) {
-            //     this.set('errorMessage', this.getAttribute('error-message'));
-            //     this.set('_hasCustomMessage', true);
-            // }
         }
     };
 </script>
